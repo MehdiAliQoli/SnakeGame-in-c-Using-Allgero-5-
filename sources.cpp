@@ -8,12 +8,12 @@
 #include <cstdlib>
 #include <ctime>
 using namespace std;
-#ifdef _WIN32
+//#ifdef _WIN32
 #include <direct.h>  // Windows-only for getting working directory
 #define getcwd _getcwd
-#else
-#include <unistd.h>  // Unix-based systems
-#endif
+//#else
+//#include <unistd.h>  // Unix-based systems
+//#endif
 
 const int SCREEN_WIDTH = 1800;
 const int SCREEN_HEIGHT = 1600;
@@ -23,12 +23,14 @@ const int GRID_HEIGHT = SCREEN_HEIGHT / GRID_SIZE;
 
 enum Direction { UP, DOWN, LEFT, RIGHT };
 
-struct Snake {
+class Snake {
+public:
     std::vector<std::pair<int, int>> body;
     Direction direction;
 };
 
-struct Food {
+class  Food {
+public:
     int x, y;
 };
 
@@ -100,7 +102,7 @@ void initialize() {
         exit(1);
     }
 
-    timer = al_create_timer(1.0 / 10);
+    timer = al_create_timer(1.0 / 7);
     if (!timer) {
         std::cerr << "Failed to create timer!" << std::endl;
         exit(1);
@@ -117,8 +119,8 @@ void spawnFood() {
     food.x = rand() % GRID_WIDTH;
     food.y = rand() % GRID_HEIGHT;
 
-   /* food.x = 15;
-    food.y = 10;*/
+    /* food.x = 15;
+     food.y = 10;*/
 }
 
 void handleInput(ALLEGRO_EVENT event) {
@@ -150,10 +152,10 @@ void update() {
     case LEFT:  head.first--;  break;
     case RIGHT: head.first++;  break;
 
-    /*case UP:    head.second-=2; break;
-    case DOWN:  head.second+=2; break;
-    case LEFT:  head.first-=2;  break;
-    case RIGHT: head.first+=2;  break;*/
+        /*case UP:    head.second-=2; break;
+        case DOWN:  head.second+=2; break;
+        case LEFT:  head.first-=2;  break;
+        case RIGHT: head.first+=2;  break;*/
     }
 
     if (head.first < 0 || head.first >= GRID_WIDTH || head.second < 0 || head.second >= GRID_HEIGHT) {
